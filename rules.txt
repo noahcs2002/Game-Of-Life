@@ -1,0 +1,5 @@
+1) Living cells with exactly 2 or 3 neighbors stay alive at the next stage of simulation.
+
+2) Dead cells with exactly 3 neighbors come alive at the next stage of the simulation.
+
+3) Any other cells die or stay dead at the next stage of simulation.
