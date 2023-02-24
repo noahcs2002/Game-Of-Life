@@ -1,17 +1,19 @@
 
 import copy, random, sys, time
 from settings import *
+from exceptions import *
 
+nextCells = {}
 
-class Extinction(Exception): pass
-class IsolatedSystem(Exception) : pass
+def populateBoard():
+    for x in range(WIDTH): 
+        for y in range(HEIGHT): 
+            if random.randint(0, 1) == 0:
+                nextCells[(x, y)] = ALIVE 
+            else:
+                nextCells[(x, y)] = DEAD 
 
-for x in range(WIDTH): 
-    for y in range(HEIGHT): 
-        if random.randint(0, 1) == 0:
-            nextCells[(x, y)] = ALIVE 
-        else:
-            nextCells[(x, y)] = DEAD 
+populateBoard()
 
 try:
     while True:
@@ -83,11 +85,33 @@ try:
         try:
             time.sleep(.5)  
         except KeyboardInterrupt:
-            print(f"Conway's Game of Life: Simulation Stages Ran: {stages}")
+            print(f"Simulation Stopped Prematurely: Simulation Stages Ran: {stages}")
             sys.exit()  
 except IsolatedSystem:
     print(f'Isolated System(s) of Total Size {aliveCount} Became Sustainable After {stages} Simulation Stages')
-    sys.exit()  
+    saveResult = input('Save simulation result to file y/[n]?\n')
+    if saveResult.lower() == 'y':
+        file = open(path, 'w+')
+        file.write(f'Current Iteration: Alive = {ALIVE}, Dead = {DEAD}, AliveCount: {aliveCount}, Steps to Stagnation: {stagCount - isStagnantCount}')
+        file.write(f'\n')
+        for y in range(HEIGHT):
+            for x in range(WIDTH):
+                file.write(cells[(x,y)])
+            file.write('\n')
+        file.write(f'Isolated System(s) of Total Size {aliveCount} Became Sustainable After {stages} Simulation Stages')
+        
+    
 except Extinction:
-    print(f'Colony Has Gone Extinct After {stages} Simulation Stages')
-    sys.exit()  
+    print(f'All Colonies Have Gone Extinct After {stages} Simulation Stages')
+    saveResult = input('Save simulation result to file y/[n]?\n')
+    if saveResult.lower() == 'y':
+        file = open(path, 'w+')
+        file.write(f'Current Iteration: Alive = {ALIVE}, Dead = {DEAD}, AliveCount: {aliveCount}, Steps to Stagnation: {stagCount - isStagnantCount}')
+        file.write(f'\n')
+        for y in range(HEIGHT):
+            for x in range(WIDTH):
+                file.write(cells[(x,y)])
+            file.write('\n')
+        file.write(f'All Colonies Have Gone Extinct After {stages} Simulation Stages')
+
+        
