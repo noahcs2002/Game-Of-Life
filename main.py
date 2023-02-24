@@ -57,32 +57,32 @@ try:
                 above = (y - 1) % HEIGHT
                 below = (y + 1) % HEIGHT
 
-                numNeighbors = 0
+                neighborCount = 0
                 if cells[(left, above)] == ALIVE:
-                    numNeighbors += 1 
+                    neighborCount += 1 
                     
                 if cells[(x, above)] == ALIVE:
-                    numNeighbors += 1 
+                    neighborCount += 1 
                     
                 if cells[(right, above)] == ALIVE:
-                    numNeighbors += 1 
+                    neighborCount += 1 
                     
                 if cells[(left, y)] == ALIVE:
-                    numNeighbors += 1 
+                    neighborCount += 1 
                     
                 if cells[(left, below)] == ALIVE:
-                    numNeighbors += 1 
+                    neighborCount += 1 
                     
                 if cells[(x, below)] == ALIVE:
-                    numNeighbors += 1 
+                    neighborCount += 1 
                     
                 if cells[(right, below)] == ALIVE:
-                    numNeighbors += 1 
+                    neighborCount += 1 
 
-                if cells[(x, y)] == ALIVE and (numNeighbors == 2 or numNeighbors == 3):
+                if cells[(x, y)] == ALIVE and (neighborCount == 2 or neighborCount == 3):
                     nextCells[(x, y)] = ALIVE
                     
-                elif cells[(x, y)] == DEAD and numNeighbors == 3:
+                elif cells[(x, y)] == DEAD and neighborCount == 3:
                     nextCells[(x, y)] = ALIVE
                     
                 else:
@@ -95,7 +95,7 @@ try:
             print(f"Conway's Game of Life: Simulation Stages Ran: {stages}")
             sys.exit()  
 except IsolatedSystem:
-    print(f'Isolated System(s) of total size {aliveCount} Became Sustainable After {stages} Simulation Stages')
+    print(f'Isolated System(s) of Total Size {aliveCount} Became Sustainable After {stages} Simulation Stages')
     sys.exit()  
 except Extinction:
     print(f'Colony Has Gone Extinct After {stages} Simulation Stages')
